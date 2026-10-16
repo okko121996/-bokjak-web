@@ -1,0 +1,288 @@
+@property --wind {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+/* 참고 이미지처럼 짙은 밤색 테두리와 은은한 달빛을 더합니다. */
+.stage::after {
+  position: absolute;
+  z-index: 25;
+  inset: 1px;
+  border: 1px solid rgba(255, 238, 202, 0.2);
+  content: "";
+  pointer-events: none;
+}
+
+.night::after {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(12, 8, 30, 0.18) 100%);
+  content: "";
+  pointer-events: none;
+}
+
+/* 달을 중심으로 배경·안개·나무를 함께 확대하는 카메라 레이어입니다. */
+.scene-camera {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transform: scale(var(--camera-zoom, 3.2));
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.moon {
+  scale: var(--reveal-scale, 0.86);
+  filter: drop-shadow(0 0 18px rgba(255, 211, 132, 0.12));
+  animation: moon-glow 7s ease-in-out infinite alternate;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.moon:focus-visible {
+  outline: 2px solid rgba(255, 238, 202, 0.8);
+  outline-offset: 8px;
+}
+
+.tree {
+  scale: var(--reveal-scale, 0.91);
+}
+
+/* 색안개는 장면이 열린 뒤에도 제자리에서 천천히 떠다닙니다. */
+.color-mist {
+  animation: color-mist-drift 11s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+.star {
+  filter: drop-shadow(0 0 4px rgba(255, 237, 174, 0.36));
+}
+
+.flower {
+  filter: drop-shadow(0 0 4px rgba(255, 208, 175, 0.15));
+}
+
+.tree .flower-anchor {
+  z-index: 1;
+}
+
+/* 꽃잎에 닿은 바람은 짧은 전환으로 부드럽게 반영합니다. */
+.petal {
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: --wind 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 누르고 끄는 동안은 낙하를 멈춰 포인터를 따라오게 합니다. */
+.petal.dragging {
+  z-index: 18;
+  animation: none;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.18);
+  filter: drop-shadow(0 3px 8px rgba(255, 218, 235, 0.42));
+  cursor: grabbing;
+  transition: transform 140ms ease-out;
+}
+
+.petal.tossing {
+  z-index: 18;
+  animation: petal-toss 820ms cubic-bezier(0.2, 0.72, 0.28, 1) forwards;
+  pointer-events: none;
+}
+
+/* 짧게 누르면 팡 터지고 길게 누른 뒤 놓으면 포물선으로 날아갑니다. */
+.petal.popping {
+  animation: petal-pop 580ms ease-out forwards;
+  pointer-events: none;
+}
+
+.petal-burst {
+  position: absolute;
+  z-index: 20;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  animation: burst-fade 580ms ease-out forwards;
+}
+
+.petal-burst::before {
+  position: absolute;
+  inset: -5px;
+  border: 2px solid rgba(255, 219, 235, 0.95);
+  border-radius: 50%;
+  content: "";
+  animation: burst-ring 580ms ease-out forwards;
+}
+
+.petal-burst-particle {
+  position: absolute;
+  top: -3px;
+  left: -2px;
+  width: 6px;
+  height: 9px;
+  border-radius: 50% 0 50% 50%;
+  background: #f6b3c7;
+  box-shadow: 0 0 7px rgba(255, 219, 235, 0.85);
+  animation: burst-particle 580ms cubic-bezier(0.16, 0.72, 0.3, 1) forwards;
+}
+
+/* 문은 가운데로 닫힌 뒤 양쪽으로 열리고, 뒤의 메인 이미지가 남습니다. */
+.door-transition {
+  position: absolute;
+  z-index: 20;
+  inset: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.door-panel {
+  position: absolute;
+  top: 50%;
+  width: max-content;
+  height: max-content;
+  overflow: visible;
+  transition: transform 1100ms cubic-bezier(0.65, 0, 0.35, 1);
+  will-change: transform;
+}
+
+.door-panel img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+
+.door-panel-left {
+  right: 50%;
+  transform: translate(-100%, -50%);
+}
+
+.door-panel-right {
+  left: 50%;
+  transform: translate(100%, -50%);
+}
+
+.stage.doors-visible .door-transition {
+  visibility: visible;
+}
+
+.stage.doors-closing .door-panel {
+  transform: translate(0, -50%);
+}
+
+.stage.doors-opening .door-panel-left {
+  transform: translate(-100%, -50%);
+}
+
+.stage.doors-opening .door-panel-right {
+  transform: translate(100%, -50%);
+}
+
+.stage.main-screen-shown .scene-camera,
+.stage.main-screen-shown .petal-field {
+  visibility: hidden;
+}
+
+body.transition-started .nav {
+  opacity: 0;
+  transition: opacity 450ms ease;
+}
+
+body.main-screen-shown .nav {
+  display: none;
+}
+
+@keyframes color-mist-drift {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 1.2vw -1.4vh;
+  }
+}
+
+@keyframes moon-glow {
+  from {
+    filter: drop-shadow(0 0 16px rgba(255, 211, 132, 0.1));
+  }
+  to {
+    filter: drop-shadow(0 0 22px rgba(255, 211, 132, 0.2));
+  }
+}
+
+/* 꽃잎은 개별 속도·회전으로 낙하하며, --wind가 접촉 방향을 더합니다. */
+@keyframes fall {
+  0% {
+    transform: translate3d(0, -8vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(calc(var(--drift, 60px) + var(--wind, 0px)), 115vh, 0) rotate(var(--spin, 360deg));
+    opacity: 0;
+  }
+}
+
+@keyframes petal-toss {
+  0% {
+    transform: translate(-50%, -50%) scale(1.18);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--throw-x)), calc(-50% + var(--throw-y))) rotate(var(--spin, 360deg)) scale(0.72);
+    opacity: 0;
+  }
+}
+
+/* 클릭 팡 효과는 꽃잎 자체와 빛의 고리·꽃잎 입자로 구성합니다. */
+@keyframes petal-pop {
+  0% {
+    transform: var(--pop-from) scale(1);
+    opacity: 0.85;
+    filter: brightness(1);
+  }
+  35% {
+    transform: var(--pop-from) scale(1.35);
+    opacity: 1;
+    filter: brightness(1.8);
+  }
+  100% {
+    transform: var(--pop-from) scale(0.12) rotate(70deg);
+    opacity: 0;
+    filter: blur(5px);
+  }
+}
+
+@keyframes burst-fade {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes burst-ring {
+  to {
+    transform: scale(4.5);
+    opacity: 0;
+  }
+}
+
+@keyframes burst-particle {
+  to {
+    transform: translate(var(--burst-x), var(--burst-y)) rotate(160deg) scale(0.35);
+    opacity: 0;
+  }
+}

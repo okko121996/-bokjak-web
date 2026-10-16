@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>복작복작</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="effects.css" />
+</head>
+<body>
+  <!-- 화면 위쪽에 고정되는 브랜드 로고 -->
+  <header class="nav" aria-label="브랜드 로고">
+    <button class="brand-button" id="introHomeButton" type="button" aria-label="처음 달 장면으로 이동">
+      <img src="assets/img_27.png" alt="복작복작" class="logo" />
+    </button>
+  </header>
+  <main>
+    <section class="story" id="story" aria-label="복작복작 메인 장면">
+      <div class="stage" id="stage">
+        <div class="scene-camera" id="sceneCamera">
+          <!-- 배경과 달·나무는 장면의 기본 풍경을 구성합니다. -->
+          <div class="night" aria-hidden="true"></div>
+          <button class="moon layer" id="moon" type="button" aria-label="문을 열고 메인 화면 보기">
+            <img src="assets/img_03.png" alt="" />
+          </button>
+          <div class="tree tree-left layer"><img src="assets/img_17.png" alt="" /></div>
+          <div class="tree tree-right layer"><img src="assets/img_38.png" alt="" /></div>
+          <!-- 꽃은 script.js에서 나무 안에 배치하고, 별·구름도 동적으로 생성합니다. -->
+          <div class="flowers flowers-left" id="flowersLeft" aria-hidden="true"></div>
+          <div class="flowers flowers-right" id="flowersRight" aria-hidden="true"></div>
+          <div class="stars" id="stars" aria-hidden="true"></div>
+          <div class="clouds" id="clouds" aria-hidden="true"></div>
+        </div>
+        <section class="home-screen" id="homeScreen" data-view="home" data-theme="light" aria-label="복작복작 프렌즈">
+          <header class="home-header">
+            <button class="home-brand" id="homeLogoButton" type="button" aria-label="처음 달 장면으로 이동">
+              <img src="assets/img_47.png" alt="복작복작" />
+            </button>
+            <nav class="home-menu" aria-label="주요 메뉴">
+              <a class="active" href="#homeScreen" data-view-link="home">홈</a>
+              <a href="#characters" data-view-link="characters">캐릭터</a>
+              <a href="#best" data-view-link="best">베스트</a>
+              <a href="#new" data-view-link="new">NEW</a>
+              <a href="#category" data-view-link="category">카테고리</a>
+            </nav>
+            <div class="home-actions" aria-label="빠른 메뉴">
+              <button type="button" aria-label="검색">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.3"></circle><path d="m15.5 15.5 4.2 4.2"></path></svg>
+              </button>
+              <button class="cart-button" type="button" aria-label="장바구니, 상품 3개">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 1.9-1.5L21 8H6"></path><circle cx="9.5" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle></svg>
+                <span>3</span>
+              </button>
+            </div>
+          </header>
+          <div class="home-hero" id="friends">
+            <div class="home-copy">
+              <p class="home-eyebrow">내 손안의 작은 동물 친구들</p>
+              <img class="friends-title" src="assets/img_46.png" alt="복작복작 프렌즈" />
+              <p class="home-description">약간 삐딱하고 세상 무해한 12가지 복작복작 캐릭터들과 친구가 되어보세요.</p>
+            </div>
+          </div>
+          <section class="characters-view" id="characters" aria-label="캐릭터 선택" hidden>
+            <div class="characters-heading">
+              <h1>별말랑 행성에서 새 친구를 기다리는<br />엉뚱발랄 복작복작 프렌즈</h1>
+              <p>먼 우주 어딘가, 매년 인간 세상에 행운을 배달하기 위해 준비 중이던 12마리의 복작 프렌즈가 지구행 우주선에 올라탔어요!<br />지구에 도달할 위도도 조금 삐딱하고 엉뚱한 모습으로 변했지만, 여전히 당신에게 행운을 배달해주려고 노력 중인 따뜻한 친구들이랍니다.</p>
+            </div>
+            <div class="friend-grid">
+              <button class="friend-card" type="button" disabled aria-label="쥐"><span class="friend-seal">鼠</span><span class="friend-name">쥐</span><span class="friend-years">2020, 2008, 1996</span></button>
+              <button class="friend-card" type="button" disabled aria-label="소"><span class="friend-seal">牛</span><span class="friend-name">소</span><span class="friend-years">2021, 2009, 1997</span></button>
+              <button class="friend-card" type="button" disabled aria-label="호랑이"><span class="friend-seal">虎</span><span class="friend-name">호랑이</span><span class="friend-years">2022, 2010, 1998</span></button>
+              <button class="friend-card is-available" type="button" data-view-link="rabbit" aria-label="토끼 캐릭터 보기">
+                <span class="friend-seal"><img src="assets/토끼_당근%201.png" alt="" /></span>
+                <span class="friend-name">토끼</span>
+                <span class="friend-years">2023, 2011, 1999</span>
+              </button>
+              <button class="friend-card" type="button" disabled aria-label="용"><span class="friend-seal">龍</span><span class="friend-name">용</span><span class="friend-years">2024, 2012, 2000</span></button>
+              <button class="friend-card" type="button" disabled aria-label="뱀"><span class="friend-seal">蛇</span><span class="friend-name">뱀</span><span class="friend-years">2025, 2013, 2001</span></button>
+              <button class="friend-card" type="button" disabled aria-label="양"><span class="friend-seal">羊</span></button>
+              <button class="friend-card" type="button" disabled aria-label="원숭이"><span class="friend-seal">猴</span></button>
+              <button class="friend-card" type="button" disabled aria-label="닭"><span class="friend-seal">雞</span></button>
+              <button class="friend-card" type="button" disabled aria-label="개"><span class="friend-seal">狗</span></button>
+              <button class="friend-card" type="button" disabled aria-label="돼지"><span class="friend-seal">豬</span></button>
+              <button class="friend-card" type="button" disabled aria-label="말"><span class="friend-seal">馬</span></button>
+            </div>
+          </section>
+          <section class="rabbit-view" id="rabbit" aria-label="토끼 캐릭터 상세" hidden>
+            <img class="rabbit-art" src="assets/토끼_보따리%201.png" alt="당근 보따리를 든 토끼" />
+            <div class="rabbit-copy">
+              <p class="rabbit-tag">4번째 복작즈</p>
+              <h1>당근을 아주 많이, 어쩌면 자신의 보드랗고 쫑긋한 귀보다도 사랑하는 근철이.</h1>
+              <p>오늘도 근철이는 당근 하나를 발견 해 그 속에 담긴 따스함을 당신과 나누고싶어합니다.</p>
+              <h2>토끼띠에 해당하는 태어난 해</h2>
+              <div class="rabbit-years" aria-label="토끼와 함께한 연도">
+                <span>2023년</span><span>2011년</span><span>1999년</span><span>1987년</span><span>1975년</span><span>1963년</span>
+              </div>
+              <div class="rabbit-actions">
+                <button class="rabbit-more" type="button">토끼의 굿즈 보러가기 <span aria-hidden="true">➜</span></button>
+                <button class="rabbit-share" id="rabbitShare" type="button" aria-label="근철이 프로필 공유" title="근철이 프로필 공유">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3.5 11.2 16.8-7-5.7 16.1-3.3-6.2-7.8-2.9Z"></path><path d="m11.3 14.1 5-5"></path></svg>
+                </button>
+              </div>
+              <p class="rabbit-share-status" id="rabbitShareStatus" role="status" aria-live="polite"></p>
+            </div>
+            <div class="carrot-rain" id="carrotRain" aria-hidden="true">
+              <img class="carrot-drop carrot-drop-right" src="assets/당근img_1.png" alt="" />
+              <img class="carrot-drop carrot-drop-left" src="assets/당근img_1.png" alt="" />
+              <img class="carrot-drop carrot-drop-small" src="assets/당근img_1.png" alt="" />
+            </div>
+          </section>
+          <section class="coming-view" id="coming" aria-live="polite" hidden>
+            <h1></h1>
+            <p>복작복작 친구들이 준비 중이에요.</p>
+          </section>
+        </section>
+        <div class="door-transition" id="doorTransition" aria-hidden="true">
+          <div class="door-panel door-panel-left">
+            <img src="assets/img_41.png" alt="" />
+          </div>
+          <div class="door-panel door-panel-right">
+            <img src="assets/img_42.png" alt="" />
+          </div>
+        </div>
+        <!-- 꽃잎은 줌과 분리해 포인터 상호작용을 화면 기준으로 유지합니다. -->
+        <div class="petal-field" id="petals" aria-hidden="true"></div>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
